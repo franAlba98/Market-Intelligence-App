@@ -68,3 +68,12 @@ Thumbs.db
 models/
 *.bin
 *.safetensors
+
+# Environment files (keep example tracked)
+.env
+.env.*
+!.env.example
+
+.venv/
+venv/
+ENV/
