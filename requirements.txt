@@ -19,3 +19,10 @@ langchain-huggingface>=0.0.1
 
 # LangSmith for browser visualization
 langsmith>=0.1.0
+
+# API server
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+
+# Environment variable management
+python-dotenv>=1.0.0

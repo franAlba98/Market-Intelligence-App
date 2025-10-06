@@ -1,5 +1,4 @@
 import requests
-from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 import json
 
@@ -16,7 +15,11 @@ from langchain_core.output_parsers import StrOutputParser
 
 # LangSmith for browser visualization
 import os
+from dotenv import load_dotenv
 from langsmith import Client
+
+# Load environment variables from a local .env file if present
+load_dotenv()
 
 BASE_URL = "https://ir.tesla.com"
 PRESS_URL = BASE_URL + "/press"
@@ -96,7 +99,7 @@ def scrape_press_releases(num_docs=5):
             if not article_links:
                 return []
 
-    docs = []
+        docs = []
         for url in article_links:
             if len(docs) >= num_docs:
                 break
@@ -114,10 +117,10 @@ def scrape_press_releases(num_docs=5):
                 art_soup = BeautifulSoup(art_resp.text, "html.parser")
 
                 title_el = art_soup.select_one("h1")
-        title = title_el.get_text(strip=True) if title_el else "Untitled"
+                title = title_el.get_text(strip=True) if title_el else "Untitled"
 
                 date_el = art_soup.select_one("time, .caas-attr-time-style")
-        date = date_el.get_text(strip=True) if date_el else "Unknown"
+                date = date_el.get_text(strip=True) if date_el else "Unknown"
 
                 # Yahoo article body usually under .caas-body
                 ps = art_soup.select("div.caas-body p")
@@ -127,12 +130,12 @@ def scrape_press_releases(num_docs=5):
                 if len(content) < 200:
                     continue
 
-        docs.append({
-            "title": title,
-            "date": date,
-            "url": url,
-            "content": content
-        })
+                docs.append({
+                    "title": title,
+                    "date": date,
+                    "url": url,
+                    "content": content
+                })
             except Exception:
                 continue
 
@@ -190,7 +193,7 @@ def fetch_tesla_sec_filings(max_docs=5):
             except Exception:
                 continue
 
-    return docs
+        return docs
     except Exception as e:
         print(f"SEC fetch failed: {e}")
         return []
